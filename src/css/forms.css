@@ -1,0 +1,47 @@
+/* Minimal, deliberately unopinionated form base — expected to be overridden per project. */
+
+input,
+textarea,
+select,
+button {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+label {
+	display: block;
+	margin-bottom: var(--space-1);
+}
+
+input,
+textarea,
+select {
+	display: block;
+	width: 100%;
+	padding: var(--space-2);
+	border: 1px solid var(--col-grey-300);
+	border-radius: var(--radius-sm);
+	background-color: var(--col-white);
+	color: var(--col-body);
+
+	&:focus-visible {
+		outline: 2px solid var(--col-primary);
+		outline-offset: 1px;
+	}
+}
+
+.btn {
+	display: inline-block;
+	padding: var(--space-2) var(--space-3);
+	border: 1px solid var(--col-primary);
+	border-radius: var(--radius-sm);
+	background-color: var(--col-primary);
+	color: var(--col-white);
+	text-decoration: none;
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 2px solid var(--col-primary);
+		outline-offset: 2px;
+	}
+}
