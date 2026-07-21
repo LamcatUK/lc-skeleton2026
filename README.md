@@ -62,7 +62,7 @@ npm run generate-theme-json   # regenerate theme.json from tokens.css
 
 `npm run css` runs three steps: `generate-utilities.js` (produces
 `src/css/utilities.css` — the breakpoint-suffixed grid/utility classes — and
-`src/css/blocks.css`, a concatenation of `blocks/styles/*.css`), then
+`src/css/blocks.css`, a concatenation of `src/blocks/*.css`), then
 PostCSS (`postcss-import` + `postcss-nesting` + `autoprefixer`), then
 minification.
 
@@ -74,6 +74,6 @@ minification.
 
 Scaffolds the PHP render template, an ACF JSON field group, and registers
 the block in `inc/blocks.php`. It does **not** create a CSS file — if the
-block needs custom styles, just add `blocks/styles/{block-slug}.css`; it's
+block needs custom styles, just add `src/blocks/{block-slug}.css`; it's
 picked up automatically on the next build, no registration step. Load order
 for these is alphabetical by filename, not registration order.

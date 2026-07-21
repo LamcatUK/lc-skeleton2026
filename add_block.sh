@@ -17,7 +17,7 @@ block_kebab=$(echo "$block_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 php_file="./blocks/${block_kebab}.php"
 blocks_php="./inc/blocks.php"
 acf_json_file="./acf-json/group_${block_slug}.json"
-block_css_hint="./blocks/styles/${block_kebab}.css"
+block_css_hint="./src/blocks/${block_kebab}.css"
 
 # Exit if block already exists, with specific feedback
 if [ -f "$php_file" ]; then
@@ -44,7 +44,7 @@ echo "<?php
 " > "$php_file"
 echo "Created: $php_file"
 
-# No CSS file is created here — the build globs blocks/styles/*.css
+# No CSS file is created here — the build globs src/blocks/*.css
 # automatically. If this block needs custom styles, just add:
 echo "If this block needs custom styles, add: $block_css_hint (picked up automatically, no registration needed)"
 

@@ -14,7 +14,7 @@
     "js-minify": "terser js/theme.min.js --config-file src/build/terser.config.json --source-map \"content=js/theme.js.map,url=theme.min.js.map,filename=theme.min.js\" --output js/theme.min.js",
     "watch": "npm-run-all --parallel watch-run-*",
     "watch-bs": "npm-run-all --parallel bs watch-run-*",
-    "watch-run-css": "nodemon --watch src/css/ --watch blocks/styles/ --watch src/build/tokens.config.js --ext css,js --exec \"npm run css\"",
+    "watch-run-css": "nodemon --watch src/css/ --watch src/blocks/ --watch src/build/tokens.config.js --ext css,js --exec \"npm run css\"",
     "watch-run-js": "nodemon --watch src/js/ --ext js --exec \"npm run js\"",
     "watch-run-theme-json": "nodemon --watch src/css/tokens.css --exec \"npm run generate-theme-json\"",
     "dist": "npm-run-all --parallel css js",

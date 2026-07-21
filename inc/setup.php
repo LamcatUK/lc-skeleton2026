@@ -15,10 +15,9 @@ defined( 'ABSPATH' ) || exit;
 function lc_skeleton_setup() {
 	load_theme_textdomain( 'lc-skeleton2026', get_template_directory() . '/languages' );
 
-	add_theme_support( 'title-tag' );
+	add_theme_support( 'title-tag' ); // Site title in <head> — no separate "site title" support needed beyond this.
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
-	add_theme_support( 'custom-logo' );
+	add_theme_support( 'html5', array( 'style', 'script' ) ); // Clean markup for enqueued tags. Not search-form/comment-form/comment-list/gallery/caption — none of those are in use.
 	add_theme_support( 'responsive-embeds' );
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'editor-styles' );
