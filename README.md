@@ -20,9 +20,9 @@ Bootstrap docs/behaviour, especially for anything not covered below.
   spans are only meaningful relative to their own `.row`'s column count
   (12 by default) — you can't mix a 12-col span and a 5-col span in the same
   `.row`. For "N similar items, however many fit" layouts (card grids,
-  feature lists) use `.grid-auto` instead — `repeat(auto-fit, minmax(...))`,
+  feature lists) use `.grid` instead — `repeat(auto-fit, minmax(...))`,
   no fixed column count, no breakpoint classes, tune the minimum item width
-  per instance with `style="--grid-auto-min: 10rem"`.
+  per instance with `style="--grid-min: 10rem"`.
 - **Nav**: functional responsive nav + mobile toggle, vanilla JS
   (`src/js/nav-toggle.js`), no Bootstrap JS.
 - **Modals**: native `<dialog>` (`src/js/dialog.js`), not a JS component.

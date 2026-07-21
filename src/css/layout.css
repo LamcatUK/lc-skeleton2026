@@ -36,19 +36,21 @@
 }
 
 /*
- * .grid-auto — for "N similar items" layouts (card grids, feature lists)
- * where you want columns to fit automatically rather than declaring a fixed
- * count with .row/.col-*. No breakpoint classes needed: the browser works
- * out how many columns fit and reflows as the viewport changes. Tune the
- * minimum item width per instance via the --grid-auto-min custom property
- * rather than adding a new class, e.g. style="--grid-auto-min: 10rem".
+ * .grid — the two-base-system pairing with .row: .row is a fixed 12-column
+ * grid for deliberate page structure, .grid is auto-fit for "N similar
+ * items" layouts (card grids, feature lists) where you want columns to fit
+ * automatically rather than declaring a fixed count. No breakpoint classes
+ * needed: the browser works out how many columns fit and reflows as the
+ * viewport changes. Tune the minimum item width per instance via the
+ * --grid-min custom property rather than adding a new class, e.g.
+ * style="--grid-min: 10rem".
  *
  * Not a replacement for .row/.col-* — that's still the right tool when you
  * need deliberate, exact spans (page structure). Use this when items just
  * need to be "roughly N up, however many fit".
  */
-.grid-auto {
+.grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--grid-auto-min), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
 	gap: var(--grid-gutter);
 }

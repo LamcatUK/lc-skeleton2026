@@ -26,10 +26,12 @@ const gridColumns = 12;
 // property: [className prefix, CSS property, { suffix: value } ]
 const utilities = {
 	display: {
+		className: 'd',
 		prop: 'display',
 		values: { block: 'block', flex: 'flex', 'inline-flex': 'inline-flex', grid: 'grid', none: 'none' },
 	},
 	'flex-direction': {
+		className: 'flex',
 		prop: 'flex-direction',
 		values: { row: 'row', column: 'column' },
 	},
