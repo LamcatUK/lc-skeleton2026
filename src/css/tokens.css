@@ -56,4 +56,9 @@
 	--container-padding: var(--space-3);
 	--grid-columns: 12;
 	--grid-gutter: var(--space-3);
+
+	/* Minimum item width for .grid-auto — override per instance with an
+	   inline style (e.g. style="--grid-auto-min: 10rem") rather than adding
+	   a new class per layout. Smaller value = more columns fit. */
+	--grid-auto-min: 16rem;
 }

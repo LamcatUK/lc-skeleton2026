@@ -96,19 +96,22 @@ spanning against a 5-col row" inside the *same* `.row` — a `.col-*` class is
 not portable across different column-count contexts.
 
 If a project needs a genuinely different column count (the theme author's
-example: five equal columns), don't repurpose `.col-*` classes for it. Two
-options, neither built yet:
-1. A modifier or second class that overrides `--grid-columns`/
-   `grid-template-columns` for that specific `.row` instance, with its own
-   matching `.col-*-of-5`-style span classes (more Bootstrap-shaped, more
-   bookkeeping).
-2. A separate `auto-fit`/`minmax()`-based utility (e.g. `.grid-auto`) that
-   doesn't hardcode a column count at all — the browser works out how many
-   columns fit and reflows responsively with zero breakpoint classes. This
-   is the more "modern CSS" answer and was flagged as the likely better fit
-   for card/feature-grid style layouts, as opposed to `.row`/`.col-*` which
-   is really a page-structure system. Not implemented yet — ask before
-   assuming which approach to take if this need comes up.
+example: five equal columns), don't repurpose `.col-*` classes for it.
+`.grid-auto` (`src/css/layout.css`) is the built solution: `display: grid;
+grid-template-columns: repeat(auto-fit, minmax(var(--grid-auto-min), 1fr));`
+— no column count is declared at all, the browser fits as many as the
+minimum item width (`--grid-auto-min`, default `16rem` in `tokens.css`)
+allows, and reflows automatically as the viewport changes. Tune it per
+instance with an inline `style="--grid-auto-min: 10rem"` rather than adding
+a new class per layout.
+
+This is deliberately *not* a replacement for `.row`/`.col-*` — use `.row`
+when you need deliberate, exact spans (page structure); use `.grid-auto`
+when items just need to be "roughly N up, however many fit" (card grids,
+feature lists). A row-modifier approach (overriding `--grid-columns` for one
+specific `.row` with its own `.col-*-of-5`-style classes) was considered and
+rejected in favour of `.grid-auto` for this use case — more bookkeeping for
+less benefit when the real need is "N similar items," not exact spans.
 
 Nested `.row`s use `subgrid` for their columns where the browser supports it
 (`@supports (grid-template-columns: subgrid)` in `src/css/layout.css`),
