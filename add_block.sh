@@ -85,6 +85,8 @@ if awk -v block_code="$block_code" -v marker="$marker_comment" '
     { print }
 ' "$blocks_php" > "$temp_file"; then
   mv "$temp_file" "$blocks_php"
+  chmod 664 "$blocks_php"
+  chgrp www-data "$blocks_php" 2>/dev/null || true
   echo "Block registered in $blocks_php"
 else
   echo "Failed to insert block registration code into $blocks_php"
