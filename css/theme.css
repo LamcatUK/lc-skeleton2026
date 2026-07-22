@@ -215,8 +215,8 @@ ol {
  */
 
 .navbar {
+	position: relative;
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	padding-block: var(--space-2);
@@ -241,18 +241,30 @@ ol {
 
 .navbar-collapse {
 	display: none;
-	width: 100%;
 }
 
+/* Overlays the page rather than pushing content down — positioned against
+   .navbar (position: relative above), not in normal document flow. */
 .navbar-collapse.is-open {
 	display: block;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background-color: var(--col-body-bg);
+	border-top: 1px solid var(--col-grey-300);
+	box-shadow: var(--shadow-lg);
+	padding: var(--space-3);
+	max-height: calc(100vh - 100%);
+	overflow-y: auto;
+	z-index: 20;
 }
 
 .navbar-nav {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-2);
-	margin: var(--space-3) 0 0;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 }
@@ -286,9 +298,17 @@ ol {
 		display: none;
 	}
 
-	.navbar-collapse {
+	.navbar-collapse,
+	.navbar-collapse.is-open {
 		display: block;
+		position: static;
 		width: auto;
+		max-height: none;
+		overflow-y: visible;
+		background: none;
+		border-top: 0;
+		box-shadow: none;
+		padding: 0;
 	}
 
 	.navbar-nav {
