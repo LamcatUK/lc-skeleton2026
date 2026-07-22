@@ -130,6 +130,7 @@ inc/
   blocks.php            ACF block registration — has the marker comment add_block.sh writes to
   options.php           Registers the Site-Wide Settings ACF options page (theme-general-settings slug), hooked to acf/init
   head-tags.php          Font preload (fonts/*.woff2 glob) + GA/GTM (logged-out only) + Google/Bing verification, reading from the options page
+  block-usage.php        [block_usage_table] shortcode — QA utility, lists every block file against the published pages/posts using it
 header.php / footer.php / index.php / page.php / single.php / 404.php
                         Deliberately minimal — most real page layouts are built from ACF blocks, not these
 blocks/                 ACF block PHP render templates (add_block.sh scaffolds here)
