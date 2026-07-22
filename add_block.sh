@@ -116,7 +116,8 @@ acf_json_content="{
     ]
   ],
   \"active\": 1,
-  \"description\": \"\"
+  \"description\": \"\",
+  \"modified\": $(date +%s)
 }"
 echo "$acf_json_content" > "$acf_json_file"
 echo "Created ACF field group JSON: $acf_json_file"
