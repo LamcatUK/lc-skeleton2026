@@ -4,6 +4,23 @@ Standalone base WordPress theme. Check it out, rename it, build on it — this
 is a one-time-checkout base, not a live dependency: fixes made here aren't
 intended to sync back into projects already forked from it.
 
+## Starting a new project
+
+```
+git clone git@github.com:LamcatUK/lc-skeleton2026.git my-new-project
+cd my-new-project
+./setup.sh
+```
+
+`setup.sh` prompts for a theme name, suggests a slug from it (press enter to
+accept, or type your own — names and slugs often want to diverge), then
+renames every `lc-skeleton2026` / `LC Skeleton 2026` / `lc_skeleton_` /
+`LC_Skeleton_` reference across the whole repo to match, and resets git to a
+single fresh commit (no skeleton commit history, no GitHub repo created —
+that part's manual: `gh repo create LamcatUK/{slug} --public --source=.
+--push` when you're ready). Refuses to run on a dirty tree or an
+already-renamed project.
+
 ## This is Bootstrap-*named*, not Bootstrap
 
 Class names (`container`, `row`, `col-6`, `btn`, `navbar`, `d-flex`, etc.)
