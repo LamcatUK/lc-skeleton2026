@@ -14,7 +14,7 @@
  * @return void
  */
 function lc_skeleton_acf_blocks() {
-	if ( function_exists( 'acf_register_block_type' ) ) {
+	if ( function_exists( 'acf_register_block_type' ) ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
 
 		// INSERT NEW BLOCKS HERE.
 
