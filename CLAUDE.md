@@ -75,6 +75,7 @@ doesn't exist, no matter how standard it looks.
   widget areas, comments, tags, author archives, `archive.php`, `search.php`.
   All confirmed rare-to-never in real usage across ~40 projects/year. If a
   specific project needs one, add it there, not here.
+- **Site-Wide Settings (ACF options page) is core, not per-project.** `inc/options.php` + `acf-json/group_lc_site_wide_settings.json` — "crucial to every theme" per the person building this. GA/GTM only fire for logged-out visitors (`inc/head-tags.php`) so the team's own traffic doesn't skew analytics — a real, previously-known gap in the old `lc-iology2025` theme (fires for everyone there), fixed here from the start rather than retrofitted. GTM's noscript fallback is on `wp_body_open`, not buried in the footer — that's where Google's own docs say it belongs.
 
 ## Browser support baseline
 
@@ -127,11 +128,19 @@ inc/
   enqueue.php           Enqueues css/theme.min.css + js/theme.min.js, filemtime-versioned
   class-nav-walker.php  Lightweight Walker_Nav_Menu — nav-link/dropdown-menu classes, no JS
   blocks.php            ACF block registration — has the marker comment add_block.sh writes to
+  options.php           Registers the Site-Wide Settings ACF options page (theme-general-settings slug), hooked to acf/init
+  head-tags.php          Font preload (fonts/*.woff2 glob) + GA/GTM (logged-out only) + Google/Bing verification, reading from the options page
 header.php / footer.php / index.php / page.php / single.php / 404.php
                         Deliberately minimal — most real page layouts are built from ACF blocks, not these
 blocks/                 ACF block PHP render templates (add_block.sh scaffolds here)
   {slug}.php
-acf-json/               ACF field group JSON (add_block.sh scaffolds here)
+acf-json/               ACF field group JSON. group_lc_site_wide_settings.json (email, phone,
+                        ga_property, gtm_property, google_site_verification,
+                        bing_site_verification) is the starter Site-Wide Settings group — add
+                        more fields per-project via the field editor, and make sure they
+                        actually sync to this folder (not just the DB) or add_block.sh also
+                        scaffolds groups here for blocks
+fonts/                  Drop .woff2 files here — preloaded automatically, no registration step
 src/
   css/                  Theme-wide CSS. theme.css is the @import entry point.
     tokens.css          Design tokens as CSS custom properties (colors, spacing, type)
