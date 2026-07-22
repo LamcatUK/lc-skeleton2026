@@ -16,3 +16,4 @@ require_once LC_SKELETON_DIR . '/inc/setup.php';
 require_once LC_SKELETON_DIR . '/inc/enqueue.php';
 require_once LC_SKELETON_DIR . '/inc/class-nav-walker.php';
 require_once LC_SKELETON_DIR . '/inc/blocks.php';
+require_once LC_SKELETON_DIR . '/inc/editor.php';
