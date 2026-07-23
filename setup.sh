@@ -13,6 +13,7 @@ old_name="LC Skeleton 2026"
 old_prefix="lc_skeleton"
 old_prefix_upper="LC_SKELETON"
 old_prefix_pascal="LC_Skeleton"
+old_nav_walker_file="inc/class-lc-skeleton-nav-walker.php"
 
 # Idempotency guard — refuse to run twice against an already-renamed project.
 if ! grep -rq "$old_slug" style.css 2>/dev/null; then
@@ -60,12 +61,20 @@ for word in $new_name; do
   new_prefix_pascal="${new_prefix_pascal:+${new_prefix_pascal}_}${part}"
 done
 
+# WPCS (WordPress.Files.FileName.InvalidClassFileName) requires a class's
+# filename to be "class-" + the full class name in kebab-case — since the
+# nav walker's class name changes per project, its filename has to change
+# with it, not just its contents.
+new_nav_walker_slug=$(echo "$new_prefix_pascal" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+new_nav_walker_file="inc/class-${new_nav_walker_slug}-nav-walker.php"
+
 echo ""
 echo "This will replace, across every tracked file:"
 echo "  \"$old_name\"           -> \"$new_name\""
 echo "  $old_slug               -> $new_slug"
 echo "  ${old_prefix}_ (PHP fn/const)  -> ${new_prefix}_"
 echo "  ${old_prefix_pascal}_ (class name)  -> ${new_prefix_pascal}_"
+echo "  $old_nav_walker_file -> $new_nav_walker_file"
 echo ""
 echo "...then delete .git and start a fresh history (first commit only —"
 echo "GitHub repo creation and push are left to you)."
@@ -95,6 +104,17 @@ for f in $files; do
 done
 
 echo "Replaced references across $(echo "$files" | wc -l) files."
+
+# Rename the nav walker file to match its now-renamed class (see above —
+# WPCS requires this, and the content substitution above doesn't touch
+# filenames).
+if [ -f "$old_nav_walker_file" ]; then
+  mv "$old_nav_walker_file" "$new_nav_walker_file"
+  sed -i "s#${old_nav_walker_file}#${new_nav_walker_file}#g" functions.php
+  echo "Renamed $old_nav_walker_file -> $new_nav_walker_file"
+else
+  echo "Warning: $old_nav_walker_file not found — skipping nav walker filename rename."
+fi
 
 # Reset git to a fresh history.
 rm -rf .git

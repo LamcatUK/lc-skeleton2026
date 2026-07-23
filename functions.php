@@ -14,7 +14,7 @@ define( 'LC_SKELETON_DIR', get_template_directory() );
 
 require_once LC_SKELETON_DIR . '/inc/setup.php';
 require_once LC_SKELETON_DIR . '/inc/enqueue.php';
-require_once LC_SKELETON_DIR . '/inc/class-nav-walker.php';
+require_once LC_SKELETON_DIR . '/inc/class-lc-skeleton-nav-walker.php';
 require_once LC_SKELETON_DIR . '/inc/blocks.php';
 require_once LC_SKELETON_DIR . '/inc/editor.php';
 require_once LC_SKELETON_DIR . '/inc/options.php';
