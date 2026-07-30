@@ -3,7 +3,7 @@
  * Lightweight nav walker. Outputs nav-link/dropdown-menu class names (kept
  * for familiarity) but has none of Bootstrap's navwalker complexity — no
  * linkmod/icon handling, no Bootstrap 4/5 branching. Submenus are shown via
- * CSS :hover/:focus-within, no JS involved.
+ * dropdown-toggle buttons, which are accessible and work with keyboard navigation.
  *
  * @package lc-skeleton2026
  */
@@ -18,6 +18,15 @@ if ( ! class_exists( 'LC_Skeleton_Nav_Walker' ) ) {
 	class LC_Skeleton_Nav_Walker extends Walker_Nav_Menu {
 
 		/**
+		 * Holds the id of the submenu currently being opened, so start_lvl()
+		 * can target the same id the preceding start_el() pointed its
+		 * dropdown-toggle button's aria-controls at.
+		 *
+		 * @var string
+		 */
+		protected $current_submenu_id = '';
+
+		/**
 		 * Starts the list before the elements are added.
 		 *
 		 * @param string   $output Passed by reference.
@@ -26,7 +35,7 @@ if ( ! class_exists( 'LC_Skeleton_Nav_Walker' ) ) {
 		 * @return void
 		 */
 		public function start_lvl( &$output, $depth = 0, $args = null ) {
-			$output .= '<ul class="dropdown-menu">';
+			$output .= '<ul class="dropdown-menu" id="' . esc_attr( $this->current_submenu_id ) . '">';
 		}
 
 		/**
@@ -53,23 +62,34 @@ if ( ! class_exists( 'LC_Skeleton_Nav_Walker' ) ) {
 		 */
 		public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 			$has_children = in_array( 'menu-item-has-children', $item->classes, true );
+			$is_current   = in_array( 'current-menu-item', $item->classes, true );
 
 			$li_classes = array( 'nav-item' );
 			if ( $has_children ) {
 				$li_classes[] = 'dropdown';
 			}
 
-			$link_classes = array( 'nav-link' );
-			if ( in_array( 'current-menu-item', $item->classes, true ) ) {
-				$link_classes[] = 'active';
-			}
-
 			$output .= '<li class="' . esc_attr( implode( ' ', $li_classes ) ) . '">';
-			$output .= '<a class="' . esc_attr( implode( ' ', $link_classes ) ) . '" href="' . esc_url( $item->url ) . '"';
-			if ( in_array( 'current-menu-item', $item->classes, true ) ) {
-				$output .= ' aria-current="page"';
+
+			if ( $has_children ) {
+				// Dropdown parents never navigate — the whole item is the toggle.
+				$this->current_submenu_id = 'dropdown-' . $item->ID;
+				$output                  .= '<button type="button" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="' . esc_attr( $this->current_submenu_id ) . '">';
+				$output                  .= '<span>' . esc_html( $item->title ) . '</span>';
+				$output                  .= '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>';
+				$output                  .= '</button>';
+			} else {
+				$link_classes = array( 'nav-link' );
+				if ( $is_current ) {
+					$link_classes[] = 'active';
+				}
+
+				$output .= '<a class="' . esc_attr( implode( ' ', $link_classes ) ) . '" href="' . esc_url( $item->url ) . '"';
+				if ( $is_current ) {
+					$output .= ' aria-current="page"';
+				}
+				$output .= '>' . esc_html( $item->title ) . '</a>';
 			}
-			$output .= '>' . esc_html( $item->title ) . '</a>';
 		}
 
 		/**

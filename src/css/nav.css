@@ -72,8 +72,8 @@
 	}
 }
 
-/* Submenus — nested, always visible on mobile; shown via hover/focus as a
-   floating panel from "lg" up. No JS involved either way. */
+/* Submenus — nested, always visible on mobile; shown via click as a
+   floating panel from "lg" up. */
 .dropdown-menu {
 	list-style: none;
 	margin: var(--space-1) 0 var(--space-1) var(--space-3);
@@ -81,8 +81,21 @@
 	display: none;
 }
 
-.dropdown:has(:focus-within, :hover) > .dropdown-menu {
+.dropdown-menu.is-open {
 	display: block;
+}
+
+.dropdown-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-1);
+	width: 100%;
+	border: 0;
+	background: none;
+	font: inherit;
+	text-align: inherit;
+	cursor: pointer;
 }
 
 @media (min-width: 992px) {
