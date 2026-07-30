@@ -43,6 +43,11 @@ suggested_slug=$(echo "$new_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 read -p "Theme slug [$suggested_slug]: " slug_input
 new_slug="${slug_input:-$suggested_slug}"
 
+# browser-sync's proxy target isn't derived from the slug/name, so it needs
+# its own prompt — defaults to the team's usual "{slug}.local" convention.
+read -p "Local dev URL for browser-sync [${new_slug}.local]: " local_url_input
+new_local_url="${local_url_input:-${new_slug}.local}"
+
 # Lowercase/uppercase PHP fn/const prefixes derived from the *confirmed*
 # slug, not the raw name, so they can't silently diverge from it.
 new_prefix=$(echo "$new_slug" | tr '-' '_')
@@ -75,6 +80,7 @@ echo "  $old_slug               -> $new_slug"
 echo "  ${old_prefix}_ (PHP fn/const)  -> ${new_prefix}_"
 echo "  ${old_prefix_pascal}_ (class name)  -> ${new_prefix_pascal}_"
 echo "  $old_nav_walker_file -> $new_nav_walker_file"
+echo "  browser-sync proxy: localhost/ -> ${new_local_url}/"
 echo ""
 echo "...then delete .git and start a fresh history (first commit only —"
 echo "GitHub repo creation and push are left to you)."
@@ -104,6 +110,16 @@ for f in $files; do
 done
 
 echo "Replaced references across $(echo "$files" | wc -l) files."
+
+# browser-sync's proxy target is a literal placeholder, not one of the
+# old_name/old_slug/old_prefix tokens above, so it gets its own replacement.
+browser_sync_config="src/build/browser-sync.config.js"
+if [ -f "$browser_sync_config" ]; then
+  sed -i "s#proxy: 'localhost/'#proxy: '${new_local_url}/'#" "$browser_sync_config"
+  echo "Set browser-sync proxy to ${new_local_url}/ in $browser_sync_config"
+else
+  echo "Warning: $browser_sync_config not found — skipping browser-sync proxy update."
+fi
 
 # Rename the nav walker file to match its now-renamed class (see above —
 # WPCS requires this, and the content substitution above doesn't touch
