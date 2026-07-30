@@ -2,6 +2,7 @@
 @import "base.css";
 @import "layout.css";
 @import "nav.css";
+@import "footer.css";
 @import "forms.css";
 @import "utilities.css"; /* generated — see src/build/generate-utilities.js, run `npm run css-generate` */
 /* @import "tables.css"; -- uncomment if this project actually needs styled tables */
