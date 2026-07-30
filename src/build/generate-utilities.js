@@ -22,6 +22,26 @@ const { breakpoints, gridColumns, utilities, spacingScale } = require('./tokens.
 
 const cssDir = path.resolve(__dirname, '../css');
 const blocksStylesDir = path.resolve(__dirname, '../blocks');
+const tokensFile = path.resolve(cssDir, 'tokens.css');
+
+// Reads --{prefix}* custom properties straight out of tokens.css's :root block
+// (same approach as generate-theme-json.js) so a utility's value set stays in
+// sync with the token scale with no second place to edit.
+function readTokenValues(prefix) {
+	const cssContent = fs.readFileSync(tokensFile, 'utf8');
+	const rootBlockMatch = cssContent.match(/:root\s*{([\s\S]*?)}/);
+	if (!rootBlockMatch) return {};
+	const varRegex = /--([\w-]+):\s*([^;]+);/g;
+	const values = {};
+	let match;
+	while ((match = varRegex.exec(rootBlockMatch[1])) !== null) {
+		const key = match[1];
+		if (key.startsWith(prefix)) {
+			values[key.slice(prefix.length)] = `var(--${key})`;
+		}
+	}
+	return values;
+}
 
 function generateUtilities() {
 	const rulesByBreakpoint = {};
@@ -29,11 +49,13 @@ function generateUtilities() {
 		rulesByBreakpoint[bp] = [];
 	}
 
-	// display / flex-direction / justify-content / align-items / text-align
+	// display / flex-direction / justify-content / align-items / text-align / font-weight
 	for (const [key, def] of Object.entries(utilities)) {
 		const base = def.className || key;
-		for (const bp of Object.keys(breakpoints)) {
-			for (const [suffix, value] of Object.entries(def.values)) {
+		const values = def.tokenPrefix ? readTokenValues(def.tokenPrefix) : def.values;
+		const bps = def.responsive === false ? [''] : Object.keys(breakpoints);
+		for (const bp of bps) {
+			for (const [suffix, value] of Object.entries(values)) {
 				const className = bp ? `${base}-${bp}-${suffix}` : `${base}-${suffix}`;
 				rulesByBreakpoint[bp].push(`.${className} { ${def.prop}: ${value}; }`);
 			}

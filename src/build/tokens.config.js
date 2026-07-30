@@ -48,6 +48,16 @@ const utilities = {
 		prop: 'text-align',
 		values: { start: 'left', center: 'center', end: 'right' },
 	},
+	// values read from tokens.css's --fw-* custom properties at generate time
+	// (see readTokenValues() in generate-utilities.js) — add a --fw-300 there
+	// and .fw-300 appears here with no edit needed in this file. Base only,
+	// no per-breakpoint variants (fw-lg-700 etc. aren't a real-world need).
+	'font-weight': {
+		className: 'fw',
+		prop: 'font-weight',
+		tokenPrefix: 'fw-',
+		responsive: false,
+	},
 };
 
 // Spacing utilities (gap, margin, padding) driven off the tokens.css spacing scale.
