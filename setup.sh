@@ -111,14 +111,17 @@ done
 
 echo "Replaced references across $(echo "$files" | wc -l) files."
 
-# browser-sync's proxy target is a literal placeholder, not one of the
-# old_name/old_slug/old_prefix tokens above, so it gets its own replacement.
+# browser-sync's proxy/host targets are literal placeholders, not one of the
+# old_name/old_slug/old_prefix tokens above, so they get their own replacement.
 browser_sync_config="src/build/browser-sync.config.js"
 if [ -f "$browser_sync_config" ]; then
-  sed -i "s#proxy: 'localhost/'#proxy: '${new_local_url}/'#" "$browser_sync_config"
-  echo "Set browser-sync proxy to ${new_local_url}/ in $browser_sync_config"
+  sed -i \
+    -e "s#proxy: 'localhost/'#proxy: '${new_local_url}/'#" \
+    -e "s#host: 'localhost'#host: '${new_local_url}'#" \
+    "$browser_sync_config"
+  echo "Set browser-sync proxy/host to ${new_local_url} in $browser_sync_config"
 else
-  echo "Warning: $browser_sync_config not found — skipping browser-sync proxy update."
+  echo "Warning: $browser_sync_config not found — skipping browser-sync proxy/host update."
 fi
 
 # Rename the nav walker file to match its now-renamed class (see above —
