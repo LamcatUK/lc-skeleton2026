@@ -6,7 +6,7 @@
  * inc/helpers.php instead — don't create that file until something actually
  * needs it.
  *
- * @package lc-skeleton2026
+ * @package cb-global42026
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,6 +52,113 @@ function pluralise( $quantity, $singular, $plural = null ) {
 			return $singular . 's';
 	}
 }
+
+/**
+ * List available icons from img/icons/ as ACF select choices.
+ *
+ * Drop an .svg file into img/icons/ and it appears automatically — no
+ * registration step. Powers the acf/load_field filter below, which
+ * populates the choices of any ACF select field named "icon".
+ *
+ * @return array Slug => human-readable label pairs.
+ */
+function get_icon_choices() {
+	$choices = array();
+	$files   = glob( get_template_directory() . '/img/icons/*.svg' );
+
+	if ( ! $files ) {
+		return $choices;
+	}
+
+	foreach ( $files as $file ) {
+		$slug             = basename( $file, '.svg' );
+		$choices[ $slug ] = ucwords( str_replace( array( '-', '_' ), ' ', $slug ) );
+	}
+
+	return $choices;
+}
+add_filter(
+	'acf/load_field/name=icon',
+	function ( $field ) {
+		$field['choices'] = get_icon_choices();
+		return $field;
+	}
+);
+
+/**
+ * Inline an SVG icon from img/icons/ by slug.
+ *
+ * @param string $name Icon slug — matches an ACF "icon" select value / filename without extension.
+ * @return string SVG markup, or an empty string if the icon doesn't exist.
+ */
+function get_icon( $name ) {
+	if ( ! $name ) {
+		return '';
+	}
+
+	$path = get_template_directory() . '/img/icons/' . basename( $name ) . '.svg';
+
+	if ( ! file_exists( $path ) ) {
+		return '';
+	}
+
+	return file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read.file_get_contents_file_get_contents
+}
+
+/**
+ * Queue Q&A pairs for the aggregated FAQPage JSON-LD schema, output once in
+ * the footer by output_faq_schema(). Safe to call from multiple
+ * FAQ-style blocks on the same page — everything queued is combined into a
+ * single FAQPage block rather than one per block instance, matching
+ * Google's own guidance of one FAQPage schema per page.
+ *
+ * @param array $items Array of ['question' => string, 'answer' => string] pairs.
+ * @return void
+ */
+function queue_faq_schema( array $items ) {
+	global $faq_schema_items;
+
+	if ( ! isset( $faq_schema_items ) ) {
+		$faq_schema_items = array();
+	}
+
+	foreach ( $items as $item ) {
+		if ( empty( $item['question'] ) || empty( $item['answer'] ) ) {
+			continue;
+		}
+
+		$faq_schema_items[] = array(
+			'@type'          => 'Question',
+			'name'           => wp_strip_all_tags( $item['question'] ),
+			'acceptedAnswer' => array(
+				'@type' => 'Answer',
+				'text'  => wp_strip_all_tags( $item['answer'] ),
+			),
+		);
+	}
+}
+
+/**
+ * Output the aggregated FAQPage JSON-LD schema, if anything was queued.
+ *
+ * @return void
+ */
+function output_faq_schema() {
+	global $faq_schema_items;
+
+	if ( empty( $faq_schema_items ) ) {
+		return;
+	}
+
+	$schema = array(
+		'@context'   => 'https://schema.org',
+		'@type'      => 'FAQPage',
+		'mainEntity' => $faq_schema_items,
+	);
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+add_action( 'wp_footer', 'output_faq_schema' );
 
 /**
  * Estimate reading time for a piece of content.

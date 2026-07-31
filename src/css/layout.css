@@ -54,3 +54,14 @@
 	grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
 	gap: var(--grid-gutter);
 }
+
+/* ACF block "HTML anchor" target — see blocks/*.php, which each output
+   <a id="{anchor}" class="anchor"></a> right before the block's own markup.
+   Positioned up by the fixed header's height (plus a little breathing room)
+   so jumping to the anchor doesn't land content underneath the nav. */
+.anchor {
+	display: block;
+	position: relative;
+	top: calc(-1 * var(--nav-height) - 1rem);
+	visibility: hidden;
+}
