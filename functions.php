@@ -21,3 +21,5 @@ require_once LC_SKELETON_DIR . '/inc/options.php';
 require_once LC_SKELETON_DIR . '/inc/head-tags.php';
 require_once LC_SKELETON_DIR . '/inc/block-usage.php';
 require_once LC_SKELETON_DIR . '/inc/utilities.php';
+require_once LC_SKELETON_DIR . '/inc/posttypes.php';
+require_once LC_SKELETON_DIR . '/inc/taxonomies.php';
