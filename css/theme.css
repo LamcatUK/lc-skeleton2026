@@ -8,59 +8,61 @@
  */
 
 :root {
-	/* Colour palette — rename/replace per project, keep the slug shape */
-	--col-white: #ffffff;
-	--col-black: #000000;
-	--col-grey-100: #f5f5f5;
-	--col-grey-300: #d9d9d9;
-	--col-grey-700: #4a4a4a;
-	--col-blue-700: #1d4ed8;
+  /* Colour palette — rename/replace per project, keep the slug shape */
+  --col-white: #ffffff;
+  --col-black: #000000;
+  --col-grey-100: #f5f5f5;
+  --col-grey-300: #d9d9d9;
+  --col-grey-700: #4a4a4a;
+  --col-blue-700: #1d4ed8;
 
-	--col-primary: var(--col-blue-700);
-	--col-body: var(--col-black);
-	--col-body-bg: var(--col-white);
+  --col-primary: var(--col-blue-700);
+  --col-body: var(--col-black);
+  --col-body-bg: var(--col-white);
 
-	/* Type scale */
-	--font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-	--fs-base: 1rem;
-	--fs-h1: clamp(2rem, 1.6rem + 2vw, 3rem);
-	--fs-h2: clamp(1.6rem, 1.35rem + 1.25vw, 2.25rem);
-	--fs-h3: clamp(1.3rem, 1.15rem + 0.75vw, 1.75rem);
-	--fs-h4: 1.25rem;
-	--fs-h5: 1.1rem;
-	--fs-h6: 1rem;
-	--fs-small: 0.875rem;
-	--fw-400: 400;
-	--fw-600: 600;
-	--fw-700: 700;
-	--line-height-base: 1.5;
-	--line-height-heading: 1.2;
+  /* Type scale */
+  --font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs-base: 1rem;
+  --fs-h1: clamp(2rem, 1.6rem + 2vw, 3rem);
+  --fs-h2: clamp(1.6rem, 1.35rem + 1.25vw, 2.25rem);
+  --fs-h3: clamp(1.3rem, 1.15rem + 0.75vw, 1.75rem);
+  --fs-h4: 1.25rem;
+  --fs-h5: 1.1rem;
+  --fs-h6: 1rem;
+  --fs-small: 0.875rem;
+  --fw-400: 400;
+  --fw-600: 600;
+  --fw-700: 700;
+  --line-height-base: 1.5;
+  --line-height-heading: 1.2;
 
-	/* Spacing scale — used by both hand-authored CSS and the utility generator */
-	--space-0: 0;
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 1rem;
-	--space-4: 1.5rem;
-	--space-5: 3rem;
+  /* Spacing scale — used by both hand-authored CSS and the utility generator */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 3rem;
 
-	/* Radii / shadows / motion */
-	--radius-sm: 0.25rem;
-	--radius-lg: 0.5rem;
-	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
-	--shadow-lg: 0 8px 24px rgb(0 0 0 / 0.12);
-	--transition: 150ms ease-in-out;
+  /* Radii / shadows / motion */
+  --radius-sm: 0.25rem;
+  --radius-lg: 0.5rem;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.12);
+  --transition: 150ms ease-in-out;
 
-	/* Layout */
-	--container-max-width: 1320px;
-	--container-padding: var(--space-3);
-	--grid-columns: 12;
-	--grid-gutter: var(--space-3);
+  /* Layout */
+  --container-max-width: 1320px;
+  --container-padding: var(--space-3);
+  --grid-columns: 12;
+  --grid-gutter: var(--space-3);
 
-	/* Minimum item width for .grid — override per instance with an
+  /* Minimum item width for .grid — override per instance with an
 	   inline style (e.g. style="--grid-min: 10rem") rather than adding
 	   a new class per layout. Smaller value = more columns fit. */
-	--grid-min: 16rem;
+  --grid-min: 16rem;
+
+  --nav-height: 4rem;
 }
 /* Base element reset — the "reboot" equivalent. Deliberately small. */
 
@@ -207,6 +209,17 @@ ol {
 	grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
 	gap: var(--grid-gutter);
 }
+
+/* ACF block "HTML anchor" target — see blocks/*.php, which each output
+   <a id="{anchor}" class="anchor"></a> right before the block's own markup.
+   Positioned up by the fixed header's height (plus a little breathing room)
+   so jumping to the anchor doesn't land content underneath the nav. */
+.anchor {
+	display: block;
+	position: relative;
+	top: calc(-1 * var(--nav-height) - 1rem);
+	visibility: hidden;
+}
 /*
  * Nav breakpoint: 992px, matching the "lg" breakpoint in
  * src/build/tokens.config.js. CSS custom properties can't be read inside an
@@ -280,8 +293,8 @@ ol {
 		font-weight: var(--fw-600);
 	}
 
-/* Submenus — nested, always visible on mobile; shown via hover/focus as a
-   floating panel from "lg" up. No JS involved either way. */
+/* Submenus — nested, always visible on mobile; shown via click as a
+   floating panel from "lg" up. */
 .dropdown-menu {
 	list-style: none;
 	margin: var(--space-1) 0 var(--space-1) var(--space-3);
@@ -289,8 +302,21 @@ ol {
 	display: none;
 }
 
-.dropdown:has(:focus-within, :hover) > .dropdown-menu {
+.dropdown-menu.is-open {
 	display: block;
+}
+
+.dropdown-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-1);
+	width: 100%;
+	border: 0;
+	background: none;
+	font: inherit;
+	text-align: inherit;
+	cursor: pointer;
 }
 
 @media (min-width: 992px) {
@@ -349,7 +375,15 @@ label {
 	margin-bottom: var(--space-1);
 }
 
-input,
+/* Excludes button/checkbox/radio/range/color/file/image input types —
+   they're still <input> elements but this block/border/padding treatment
+   is meant for text-like fields only. Excluding them from the selector
+   entirely (rather than applying the rule then reverting it for those
+   types) means this rule never touches them in the first place — robust
+   regardless of style load order, unlike an "apply then all:revert" pass
+   which can fight with e.g. ACF's own admin CSS for its radio/checkbox UI
+   if that CSS happens to load earlier in the same document. */
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]),
 textarea,
 select {
 	display: block;
@@ -360,8 +394,7 @@ select {
 	background-color: var(--col-white);
 	color: var(--col-body);
 }
-
-:is(input,textarea,select):focus-visible {
+:is(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]),textarea,select):focus-visible {
 		outline: 2px solid var(--col-primary);
 		outline-offset: 1px;
 	}
@@ -400,6 +433,9 @@ select {
 .text-start { text-align: left; }
 .text-center { text-align: center; }
 .text-end { text-align: right; }
+.fw-400 { font-weight: var(--fw-400); }
+.fw-600 { font-weight: var(--fw-600); }
+.fw-700 { font-weight: var(--fw-700); }
 .gap-0 { gap: var(--space-0); }
 .gap-1 { gap: var(--space-1); }
 .gap-2 { gap: var(--space-2); }
@@ -669,6 +705,7 @@ select {
 	.col-xxl-12 { grid-column: span 12; }
 } /* generated — see src/build/generate-utilities.js, run `npm run css-generate` */
 /* @import "tables.css"; -- uncomment if this project actually needs styled tables */
+/* @import "accordion.css"; -- uncomment if this project actually needs styled accordions */
 /* Generated by src/build/generate-utilities.js — do not hand-edit.
    Concatenation of src/blocks/*.css, alphabetical by filename. */ /* generated — concatenation of src/blocks/*.css, see src/build/generate-utilities.js */
 

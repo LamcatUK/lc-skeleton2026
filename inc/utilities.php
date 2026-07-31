@@ -6,7 +6,7 @@
  * inc/helpers.php instead — don't create that file until something actually
  * needs it.
  *
- * @package cb-global42026
+ * @package lc-skeleton2026
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,7 +102,7 @@ function get_icon( $name ) {
 		return '';
 	}
 
-	return file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read.file_get_contents_file_get_contents
+	return file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 }
 
 /**
