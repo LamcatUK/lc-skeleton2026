@@ -7,7 +7,7 @@
     "bs": "browser-sync start --config src/build/browser-sync.config.js",
     "css": "npm-run-all css-generate css-build css-minify",
     "css-generate": "node src/build/generate-utilities.js",
-    "css-build": "postcss src/css/theme.css --config src/build/postcss.config.js --dir css --no-map",
+    "css-build": "postcss src/css/theme.css src/css/editor.css --config src/build/postcss.config.js --dir css --no-map",
     "css-minify": "cleancss -O1 --format breakWith=lf --with-rebase --source-map --source-map-inline-sources --output css/ --batch --batch-suffix \".min\" \"css/*.css\" \"!css/*.min.css\"",
     "js": "npm-run-all js-compile js-minify",
     "js-compile": "rollup --config src/build/rollup.config.js --sourcemap",

@@ -13,7 +13,15 @@ label {
 	margin-bottom: var(--space-1);
 }
 
-input,
+/* Excludes button/checkbox/radio/range/color/file/image input types —
+   they're still <input> elements but this block/border/padding treatment
+   is meant for text-like fields only. Excluding them from the selector
+   entirely (rather than applying the rule then reverting it for those
+   types) means this rule never touches them in the first place — robust
+   regardless of style load order, unlike an "apply then all:revert" pass
+   which can fight with e.g. ACF's own admin CSS for its radio/checkbox UI
+   if that CSS happens to load earlier in the same document. */
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]),
 textarea,
 select {
 	display: block;
