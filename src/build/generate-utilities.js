@@ -78,24 +78,36 @@ function generateUtilities() {
 		}
 	}
 
-	// margin / padding — base only (not responsive), see tokens.config.js comment
-	const sideProps = {
-		'': ['margin', 'padding'],
-	};
+	// margin / padding — responsive, same per-breakpoint pattern as gap-*/col-*
+	// s/e (start/end) are physical, not logical — left/right, matching this
+	// file's existing text-align start/end convention above, not RTL-aware
+	// margin-inline-start/end.
 	const spacingSides = {
 		'': ['top', 'right', 'bottom', 'left'],
 		t: ['top'],
 		b: ['bottom'],
+		s: ['left'],
+		e: ['right'],
 		x: ['left', 'right'],
 		y: ['top', 'bottom'],
 	};
-	for (const n of spacingScale) {
-		for (const [sideSuffix, sides] of Object.entries(spacingSides)) {
-			for (const [abbr, prop] of [['m', 'margin'], ['p', 'padding']]) {
-				const className = `${abbr}${sideSuffix}-${n}`;
-				const decls = sides.map((side) => `${prop}-${side}: var(--space-${n});`).join(' ');
-				rulesByBreakpoint[''].push(`.${className} { ${decls} }`);
+	for (const bp of Object.keys(breakpoints)) {
+		for (const n of spacingScale) {
+			for (const [sideSuffix, sides] of Object.entries(spacingSides)) {
+				for (const [abbr, prop] of [['m', 'margin'], ['p', 'padding']]) {
+					const className = bp ? `${abbr}${sideSuffix}-${bp}-${n}` : `${abbr}${sideSuffix}-${n}`;
+					const decls = sides.map((side) => `${prop}-${side}: var(--space-${n});`).join(' ');
+					rulesByBreakpoint[bp].push(`.${className} { ${decls} }`);
+				}
 			}
+		}
+
+		// margin-only "auto" (m-auto, mx-auto, ...) — padding has no auto
+		// value in CSS, so this isn't part of the shared loop above.
+		for (const [sideSuffix, sides] of Object.entries(spacingSides)) {
+			const className = bp ? `m${sideSuffix}-${bp}-auto` : `m${sideSuffix}-auto`;
+			const decls = sides.map((side) => `margin-${side}: auto;`).join(' ');
+			rulesByBreakpoint[bp].push(`.${className} { ${decls} }`);
 		}
 	}
 

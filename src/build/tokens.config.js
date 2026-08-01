@@ -35,6 +35,15 @@ const utilities = {
 		prop: 'flex-direction',
 		values: { row: 'row', column: 'column' },
 	},
+	// suffixes intentionally match Bootstrap's standalone names (.flex-wrap,
+	// not .flex-wrap-wrap) — same className prefix as flex-direction above,
+	// no collision since the suffixes themselves don't overlap.
+	'flex-wrap': {
+		className: 'flex',
+		prop: 'flex-wrap',
+		values: { wrap: 'wrap', nowrap: 'nowrap', 'wrap-reverse': 'wrap-reverse' },
+		responsive: false,
+	},
 	'justify-content': {
 		prop: 'justify-content',
 		values: { start: 'flex-start', end: 'flex-end', center: 'center', between: 'space-between' },

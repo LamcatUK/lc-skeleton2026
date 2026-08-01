@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return void
  */
-function lc_skeleton2026_register_theme_taxonomies() {
+function lc_skeleton_register_theme_taxonomies() {
 
 	/*
 	register_taxonomy(
@@ -41,4 +41,4 @@ function lc_skeleton2026_register_theme_taxonomies() {
 	*/
 
 }
-add_action( 'init', 'lc_skeleton2026_register_theme_taxonomies' );
+add_action( 'init', 'lc_skeleton_register_theme_taxonomies' );

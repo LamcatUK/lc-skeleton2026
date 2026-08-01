@@ -33,16 +33,16 @@ add_action( 'acf/init', 'lc_skeleton_acf_blocks' );
  * @param string $name Block type name.
  * @return array
  */
-function lc_skeleton2026_core_block_type_args( $args, $name ) {
+function lc_skeleton_core_block_type_args( $args, $name ) {
 	$wrapped_blocks = array( 'core/paragraph', 'core/heading', 'core/list', 'core/separator' );
 
 	if ( in_array( $name, $wrapped_blocks, true ) ) {
-		$args['render_callback'] = 'lc_skeleton2026_wrap_block_in_container';
+		$args['render_callback'] = 'lc_skeleton_wrap_block_in_container';
 	}
 
 	return $args;
 }
-add_filter( 'register_block_type_args', 'lc_skeleton2026_core_block_type_args', 10, 2 );
+add_filter( 'register_block_type_args', 'lc_skeleton_core_block_type_args', 10, 2 );
 
 /**
  * Render callback that wraps a core block's content in .container.
@@ -51,6 +51,6 @@ add_filter( 'register_block_type_args', 'lc_skeleton2026_core_block_type_args', 
  * @param string $content    Rendered block content.
  * @return string
  */
-function lc_skeleton2026_wrap_block_in_container( $attributes, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+function lc_skeleton_wrap_block_in_container( $attributes, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 	return '<div class="container">' . $content . '</div>';
 }

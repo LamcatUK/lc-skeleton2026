@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return void
  */
-function lc_skeleton2026_add_editor_styles() {
+function lc_skeleton_add_editor_styles() {
 	add_editor_style( array( 'css/theme.min.css', 'css/editor.min.css' ) );
 }
-add_action( 'after_setup_theme', 'lc_skeleton2026_add_editor_styles' );
+add_action( 'after_setup_theme', 'lc_skeleton_add_editor_styles' );
 
 /**
  * Disable the block editor's fullscreen mode by default, and work around a

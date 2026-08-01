@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return void
  */
-function lc_skeleton2026_register_post_types() {
+function lc_skeleton_register_post_types() {
 
 	/*
 	register_post_type(
@@ -51,7 +51,7 @@ function lc_skeleton2026_register_post_types() {
 	*/
 
 }
-add_action( 'init', 'lc_skeleton2026_register_post_types' );
+add_action( 'init', 'lc_skeleton_register_post_types' );
 
 /**
  * Serve page.php for singular views of any custom post type that has no
@@ -72,7 +72,7 @@ add_action( 'init', 'lc_skeleton2026_register_post_types' );
  * @param string $template Template path WordPress would otherwise use.
  * @return string
  */
-function lc_skeleton2026_use_page_template_for_cpts( $template ) {
+function lc_skeleton_use_page_template_for_cpts( $template ) {
 	if ( is_singular() && ! is_page() && ! is_singular( 'post' ) && 'single.php' === basename( $template ) ) {
 		$page_template = get_query_template( 'page' );
 
@@ -83,4 +83,4 @@ function lc_skeleton2026_use_page_template_for_cpts( $template ) {
 
 	return $template;
 }
-add_filter( 'template_include', 'lc_skeleton2026_use_page_template_for_cpts' );
+add_filter( 'template_include', 'lc_skeleton_use_page_template_for_cpts' );
