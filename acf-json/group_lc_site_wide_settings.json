@@ -42,6 +42,57 @@
             "append": ""
         },
         {
+            "key": "field_lc_ss_social_tab",
+            "label": "Social",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_lc_ss_facebook_url",
+            "label": "Facebook URL",
+            "name": "facebook_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Leave blank to hide this icon from [social_icons].",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://facebook.com/..."
+        },
+        {
+            "key": "field_lc_ss_instagram_url",
+            "label": "Instagram URL",
+            "name": "instagram_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Leave blank to hide this icon from [social_icons].",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://instagram.com/..."
+        },
+        {
             "key": "field_lc_ss_tracking_tab",
             "label": "Tracking & Verification",
             "name": "",
@@ -137,6 +188,61 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_lc_ss_icons_tab",
+            "label": "Icons",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_lc_ss_icons_preview",
+            "label": "Current Icons",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_lc_ss_icon_upload",
+            "label": "Upload Icon",
+            "name": "icon_upload",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "Drop an SVG here to add it to the theme's icon set. It's sanitised, saved as img/icons/{filename}.svg (commit it like any other theme file), and removed from the Media Library — this field is a one-time upload slot, not storage, so it clears itself after each save.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "svg"
         }
     ],
     "location": [
@@ -156,5 +262,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "modified": 1785612899
 }

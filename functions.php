@@ -18,6 +18,8 @@ require_once LC_SKELETON_DIR . '/inc/class-lc-skeleton-nav-walker.php';
 require_once LC_SKELETON_DIR . '/inc/blocks.php';
 require_once LC_SKELETON_DIR . '/inc/editor.php';
 require_once LC_SKELETON_DIR . '/inc/options.php';
+require_once LC_SKELETON_DIR . '/inc/icon-upload.php';
+require_once LC_SKELETON_DIR . '/inc/social-icons.php';
 require_once LC_SKELETON_DIR . '/inc/head-tags.php';
 require_once LC_SKELETON_DIR . '/inc/block-usage.php';
 require_once LC_SKELETON_DIR . '/inc/utilities.php';
