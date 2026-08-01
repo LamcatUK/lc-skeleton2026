@@ -1,25 +1,9 @@
-<?php
-/**
- * Header template.
- *
- * @package lc-skeleton2026
- */
-
-?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php wp_head(); ?>
-</head>
-
-<body <?php body_class(); ?>>
-<a class="visually-hidden" href="#main">Skip to content</a>
-<?php wp_body_open(); ?>
-
-<!-- HEADER-NAV:START -->
 <header id="masthead">
-	<nav class="navbar container" aria-label="Primary navigation">
+	<div class="navbar-top container">
+		<!-- Top row — phone, email, social, secondary links, etc. Style/populate per project. -->
+	</div>
+
+	<div class="navbar container">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="navbar-brand">
 			<?php bloginfo( 'name' ); ?>
 		</a>
@@ -29,7 +13,9 @@
 				<path d="M2 5h16M2 10h16M2 15h16" />
 			</svg>
 		</button>
+	</div>
 
+	<nav class="navbar-menu-row container" aria-label="Primary navigation">
 		<div class="navbar-collapse" id="primary-menu">
 			<?php
 			wp_nav_menu(
@@ -45,6 +31,3 @@
 		</div>
 	</nav>
 </header>
-<!-- HEADER-NAV:END -->
-
-<main id="main">

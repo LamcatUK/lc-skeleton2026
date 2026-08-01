@@ -1,23 +1,3 @@
-<?php
-/**
- * Header template.
- *
- * @package lc-skeleton2026
- */
-
-?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php wp_head(); ?>
-</head>
-
-<body <?php body_class(); ?>>
-<a class="visually-hidden" href="#main">Skip to content</a>
-<?php wp_body_open(); ?>
-
-<!-- HEADER-NAV:START -->
 <header id="masthead">
 	<nav class="navbar container" aria-label="Primary navigation">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="navbar-brand">
@@ -45,6 +25,3 @@
 		</div>
 	</nav>
 </header>
-<!-- HEADER-NAV:END -->
-
-<main id="main">

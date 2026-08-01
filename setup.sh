@@ -48,6 +48,17 @@ new_slug="${slug_input:-$suggested_slug}"
 read -p "Local dev URL for browser-sync [${new_slug}.local]: " local_url_input
 new_local_url="${local_url_input:-${new_slug}.local}"
 
+# Header pattern: flat is [logo][primary nav] in one row (the current
+# default header.php); stacked is [logo][top row] then [logo][primary nav]
+# as two rows. Only header.php's marked header/nav section is affected —
+# no CSS is generated for either, that's still per-project work.
+read -p "Header style — flat or stacked [flat]: " header_style_input
+header_style="${header_style_input:-flat}"
+while [ "$header_style" != "flat" ] && [ "$header_style" != "stacked" ]; do
+  read -p "Please enter 'flat' or 'stacked' [flat]: " header_style_input
+  header_style="${header_style_input:-flat}"
+done
+
 # Lowercase/uppercase PHP fn/const prefixes derived from the *confirmed*
 # slug, not the raw name, so they can't silently diverge from it.
 new_prefix=$(echo "$new_slug" | tr '-' '_')
@@ -81,6 +92,7 @@ echo "  ${old_prefix}_ (PHP fn/const)  -> ${new_prefix}_"
 echo "  ${old_prefix_pascal}_ (class name)  -> ${new_prefix_pascal}_"
 echo "  $old_nav_walker_file -> $new_nav_walker_file"
 echo "  browser-sync proxy: localhost/ -> ${new_local_url}/"
+echo "  header.php header/nav section -> templates/header-${header_style}.php"
 echo ""
 echo "...then delete .git and start a fresh history (first commit only —"
 echo "GitHub repo creation and push are left to you)."
@@ -134,6 +146,31 @@ if [ -f "$old_nav_walker_file" ]; then
 else
   echo "Warning: $old_nav_walker_file not found — skipping nav walker filename rename."
 fi
+
+# Write the chosen header partial (already through the rename pass above,
+# so it references the new nav walker class) into header.php's marked
+# section. Marker comments stay in place — they just bound the region a
+# future header-style swap would need to replace.
+header_partial="templates/header-${header_style}.php"
+if [ -f "$header_partial" ] && [ -f "header.php" ]; then
+  tmp_header=$(mktemp)
+  awk -v partial="$header_partial" '
+    /<!-- HEADER-NAV:START -->/ { print; while ((getline line < partial) > 0) print line; close(partial); skip=1; next }
+    /<!-- HEADER-NAV:END -->/ { skip=0 }
+    skip { next }
+    { print }
+  ' header.php > "$tmp_header"
+  mv "$tmp_header" header.php
+  echo "Wrote $header_partial into header.php"
+else
+  echo "Warning: $header_partial or header.php not found — skipping header style setup."
+fi
+
+# The unused partial (and templates/ itself, once empty) isn't needed once
+# a project has its header.php written — this is a one-time setup choice,
+# not an ongoing generated-file relationship.
+rm -f templates/header-flat.php templates/header-stacked.php
+rmdir templates 2>/dev/null || true
 
 # Reset git to a fresh history.
 rm -rf .git
